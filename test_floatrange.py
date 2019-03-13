@@ -23,11 +23,11 @@ import pytest
                           (0, -1, 1, 0), (0, 1, -1, 0),
                           (0, -1, -10, 10)])
 def test_frange_new(start, step, stop, length):
-        r = frange(start/10, stop/10, step/10)
-        a = arange(start, stop, step)/10
-        assert len(r) == length
-        if len(r) > 0:
-            all(r == a)
+    r = frange(start/10, stop/10, step/10)
+    a = arange(start, stop, step)/10
+    assert len(r) == length
+    if len(r) > 0:
+        all(r == a)
 
 
 # testsuite from https://github.com/JuliaLang/julia/pull/5636/files
