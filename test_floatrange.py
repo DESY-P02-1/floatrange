@@ -73,3 +73,7 @@ def test_frange():
 
 def test_frange_includes_start():
     assert frange(110.0, 120.0, 10/60*5)[0] == 110.0
+
+
+def test_frange_int_float_equality():
+    assert all(frange(110, 120.0, 1/6*5) == frange(110.0, 120.0, 1/6*5))
