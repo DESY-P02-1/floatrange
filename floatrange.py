@@ -40,7 +40,7 @@ def frange(start, stop, step=1):
         The function works with floating point numbers. stop is never included
         in the range. Step size is 1 by default.
     """
-    a, b, s = start, stop, step
+    a, b, s = float(start), float(stop), float(step)
     x = (b - a) / s
     if x == 0:
         return asarray([])
