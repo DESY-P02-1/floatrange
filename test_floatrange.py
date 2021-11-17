@@ -28,6 +28,7 @@ def test_frange_new(start, step, stop, length):
     assert len(r) == length
     if len(r) > 0:
         all(r == a)
+        assert r[0] == start/10
 
 
 # testsuite from https://github.com/JuliaLang/julia/pull/5636/files
@@ -68,3 +69,7 @@ def test_frange():
                                                     prevfloat(0.2)])
     assert all(frange(0.0, 0.3, nextfloat(0.1)) == [0.0, nextfloat(0.1),
                                                     nextfloat(0.2)])
+
+
+def test_frange_includes_start():
+    assert frange(110.0, 120.0, 10/60*5)[0] == 110.0

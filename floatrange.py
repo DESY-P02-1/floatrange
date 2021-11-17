@@ -50,4 +50,7 @@ def frange(start, stop, step=1):
         if (D * b - D * a) / r / D == s:
             A, n, d, N = D * a, T, D, r
         N = int(N) - 1  # due to subtle difference from Julia
-    return asarray([(A + k * n) / d for k in range(0, N + 1)])
+    ret = asarray([(A + k * n) / d for k in range(0, N + 1)])
+    if N >= 0:
+        ret[0] = start  # ensure start is contained exactly
+    return ret
