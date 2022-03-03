@@ -44,12 +44,29 @@ def frange(start, stop, step=1):
     x = (b - a) / s
     if x == 0:
         return asarray([])
+    if abs(s)/max(abs(a), abs(b)) < 1e-12:
+        # At some point there are not enough significant digits to represent
+        # the difference of one step. A ratio of 1e-12 should be on the safe
+        # side and this limit should hardly matter in practice.
+        raise ValueError("Step is too small relative to the endpoints")
     A, n, d, N, r = a, s, 1, floor(x), round(x)
     if prevfloat(r) <= x <= nextfloat(r):
         T, D = rat(s)
         if (D * b - D * a) / r / D == s:
             A, n, d, N = D * a, T, D, r
-        N = int(N) - 1  # due to subtle difference from Julia
+        N -= 1  # due to subtle difference from Julia
+        endpoint_plus_step = (A + (N + 1) * n) / d
+        if (b - endpoint_plus_step) / (n / d) > 0.1:
+            # Fix issue #4
+            # In Julia the endpoint cannot be larger than stop, even if the
+            # difference is tiny, but in Python endpoint > stop - step is not
+            # a problem. If endpoint + step is still a significant part of a
+            # step away from stop, we can add another step
+            N += 1
+    if prevfloat(b) <= a + N * s <= nextfloat(b):
+        # Fix issue #3
+        # If the endpoint is too close to stop, remove one step
+        N -= 1
     ret = asarray([(A + k * n) / d for k in range(0, N + 1)])
     if N >= 0:
         ret[0] = start  # ensure start is contained exactly
