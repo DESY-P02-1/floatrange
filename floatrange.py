@@ -55,7 +55,7 @@ def frange(start, stop, step=1):
         if (D * b - D * a) / r / D == s:
             A, n, d, N = D * a, T, D, r
         N -= 1  # due to subtle difference from Julia
-        endpoint_plus_step = (A + (N + 1)* n) / d
+        endpoint_plus_step = (A + (N + 1) * n) / d
         if (b - endpoint_plus_step) / (n / d) > 0.1:
             # Fix issue #4
             # In Julia the endpoint cannot be larger than stop, even if the
